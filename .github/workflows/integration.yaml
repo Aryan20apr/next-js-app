@@ -1,0 +1,53 @@
+name: integration
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        
+
+    steps:
+    - uses: actions/checkout@v4 #Checkout to the current feature branch
+    - name: Use Node.js ${{ matrix.node-version }} #optional
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: "Installing dependencies" # Optionally provide name for each command
+      run: npm i
+
+    - name: "Building project"
+      run: npm run build
+
+  unti-tests:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        
+
+    steps:
+    - uses: actions/checkout@v4 #Checkout to the current feature branch
+    - name: Use Node.js ${{ matrix.node-version }} #optional
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: "Installing dependencies" # Optionally provide name for each command
+      run: npm i
+
+    - name: "Running tests"
+      run: npm run test
+
